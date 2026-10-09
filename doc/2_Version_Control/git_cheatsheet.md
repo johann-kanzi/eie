@@ -71,3 +71,4 @@ git fetch
 git remote
 - manage remote repositories
 - common use: list, add, remove remotes
+.
