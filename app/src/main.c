@@ -13,12 +13,14 @@
 #define SLEEP_MS 1
 
 int main(void) {
-  if (0 > BTN_init()) {
+  if (0 > BTN_init()) { 
     return 0;
   }
   if (0 > LED_init()) {
     return 0;
   }
+
+  LED_blink(LED0, LED_1HZ);
 
   while (1) {
     k_msleep(SLEEP_MS);
