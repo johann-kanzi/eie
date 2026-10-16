@@ -10,10 +10,10 @@
 #include "BTN.h"
 #include "LED.h"
 
-#define SLEEP_MS 100
+#define SLEEP_MS 50
 
 void bit_convert(int n);
-void led_bits(void);
+void led_bits(int lum);
 
 int bits[] = {0, 0, 0, 0};
 
@@ -27,6 +27,8 @@ int main(void) {
 
   
   int count = 0;
+  int duty_cycle = 100;
+
   while (1) {
 
     if (BTN_check_clear_pressed(BTN0))
@@ -37,8 +39,13 @@ int main(void) {
       bit_convert(count);
     }
 
-    led_bits();
-
+    if (BTN_is_pressed(BTN1))
+    {
+      duty_cycle += 1;
+      if (duty_cycle >= 100)
+        duty_cycle = 5;
+    }
+    led_bits(duty_cycle);
 
     k_msleep(SLEEP_MS);
   }
@@ -54,11 +61,11 @@ void bit_convert(int n)
   return;
 }
 
-void led_bits(void)
+void led_bits(int lum)
 {
   if (0 < bits[0])
   {
-    LED_set(LED0, LED_ON);
+    LED_pwm(LED0, lum);
   } 
   else 
   {
@@ -67,7 +74,7 @@ void led_bits(void)
 
   if (0 < bits[1])
   {
-    LED_set(LED1, LED_ON);
+    LED_pwm(LED1, lum);
   } 
   else 
   {
@@ -76,7 +83,7 @@ void led_bits(void)
 
   if (0 < bits[2])
   {
-    LED_set(LED2, LED_ON);
+    LED_pwm(LED2, lum);
   } 
   else 
   {
@@ -85,10 +92,11 @@ void led_bits(void)
 
   if (0 < bits[3])
   {
-    LED_set(LED3, LED_ON);
+    LED_pwm(LED3, lum);
   } 
   else 
   {
     LED_set(LED3, LED_OFF);
   }
+  return;
 }
