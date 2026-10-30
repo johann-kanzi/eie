@@ -26,14 +26,20 @@ int main(void){
         return ret;
     }
 
+    int count = 0;
     while (1) {
-        gpio_pin_toggle_dt(&led0);
+
+        if (count == 2){
         gpio_pin_toggle_dt(&led1);
         gpio_pin_toggle_dt(&led2);
         gpio_pin_toggle_dt(&led3);
+        count = 0;
+        }
+        gpio_pin_toggle_dt(&led0);
+        count++;
 
 
-        k_msleep(1000);
+        k_msleep(250);
     }
 
     return 0;
