@@ -26,20 +26,48 @@ int main(void){
         return ret;
     }
 
-    int count = 0;
+    gpio_pin_set_dt(&led0, 0);
+    gpio_pin_set_dt(&led1, 0);
+    gpio_pin_set_dt(&led2, 0);
+    gpio_pin_set_dt(&led3, 0);
+
+
+    int state = 0;
+    int n_blinks = 6;
+    int blink2 = n_blinks * 2;
+
     while (1) {
-
-        if (count == 2){
-        gpio_pin_toggle_dt(&led1);
-        gpio_pin_toggle_dt(&led2);
-        gpio_pin_toggle_dt(&led3);
-        count = 0;
+        if (state == 0){
+            for (int i = 0; i < blink2; i++){
+                gpio_pin_toggle_dt(&led0);
+                k_msleep(250);
+            }      
+            state = 1;
         }
-        gpio_pin_toggle_dt(&led0);
-        count++;
+        if (state == 1){
+            for (int i = 0; i < blink2; i++){
+                gpio_pin_toggle_dt(&led1);
+                k_msleep(250);
+            }      
+            state = 2;
+        }
+        if (state == 2){
+            for (int i = 0; i < blink2; i++){
+                gpio_pin_toggle_dt(&led2);
+                k_msleep(250);
+            }      
+            state = 3;
+        }
+        if (state == 3){
+            for (int i = 0; i < blink2; i++){
+                gpio_pin_toggle_dt(&led3);
+                k_msleep(250);
+            }      
+            state = 0;
+        }
+        
 
 
-        k_msleep(250);
     }
 
     return 0;
